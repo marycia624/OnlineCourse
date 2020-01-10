@@ -16,11 +16,25 @@
                 <h1>DoWhile.Pro</h1>
             </div>
             <nav class="main-menu">
-                <a class="menu-link" href="/">Главная</a>
-                <a class="menu-link menu-news" href="#">Новости</a>
-                <a class="menu-link " href="/studing">Обучение</a>
-                <a class="menu-link" href="/personal-account">Личный кабинет</a>
-                <a class="menu-link" href="/logout">Выход</a>
+                <ul>
+                    <#if roleHost??>
+                        <li><a class="menu-link" href="/">Главная</a></li>
+                    </#if>
+                    <li><a class="menu-link  menu-studing" href="/news">Новости</a></li>
+                    <#if roleUser??>
+                        <li><a class="menu-link" href="#">Обучение</a>
+                            <ul class="fall">
+                                <li><a class="menu-link" href="/studing">Теория</a></li>
+                                <li><a class="menu-link" href="/practice">Практика</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="menu-link" href="/personal-account">Личный кабинет</a></li>
+                        <li><a class="menu-link" href="/logout">Выход</a></li>
+                    </#if>
+                    <#if roleHost??>
+                        <li><a class="menu-link" href="/login">Вход</a></li>
+                    </#if>
+                </ul>
             </nav>
         </div>
     </div>
@@ -28,7 +42,13 @@
 
 <div class="read-news">
     <div class="container">
-        <p>Привет, комментируй!</p>
+        ${news.text}
+        <#if roleAdmin??>
+            <div style="text-align: right">
+            <a class="menu-link" href="/editNews/${news.id}" style="font-size: 20px">Редактировать новость</a>
+                <a class="menu-link" href="/deleteNews/${news.id}" style="font-size: 20px">Удалить новость</a>
+            </div>
+        </#if>
         <!--h1 class="title"> Microsoft создаёт новый язык программирования, основанный на Rust </h1>
         <p>Компания Microsoft развивает новый язык программирования на основе Rust. Как пишет издание ZDnet, проект
             получил название Verona. Планируется, что на его основе Microsoft перепишет некоторые компоненты Windows 10,
@@ -55,7 +75,10 @@
 
 <div class="comments">
     <div class="container">
-        <form name="comment" action="/comment" method="post">
+        <#if error??>
+            <p class="error">${error}</p>
+        </#if>
+        <form name="comment" action="/comment/news/${news.id}" method="post">
 
             <p>
                 <textarea name="message" placeholder="Оставь свой комментарий" rows="5"></textarea>
@@ -64,17 +87,25 @@
                 <input type="submit" class="enter-btn comment-btn" value="Отправить комментарий"/>
             </p>
         </form>
+
+        <#if comments??>
+            <#list comments as comment>
+                <div class="onecomment">
+                    <strong>${comment.author.login}</strong>
+                    <p>${comment.message}</p>
+                </div>
+            <#else>
+                <div class="onecomment">
+                    <p>No comments</p>
+                </div>
+            </#list>
+        <#else>
+        <div class="onecomment">
+            <p>Пока нет комментариев... Будь первым!</p>
+        </div>
+        </#if>
     </div>
 
-    <#list comments as comment>
-        <div>
-            <b>${comment.id}</b>
-            <span>${comment.message}</span>
-            <strong>${comment.author}</strong>
-        </div>
-    <#else>
-        No comments
-    </#list>
 </div>
 </body>
 </html>

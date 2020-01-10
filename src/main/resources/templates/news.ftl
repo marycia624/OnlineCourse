@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>DoWhile.Pro</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,500,500i,700,700i,800,800i,900,900i&display=swap"
           rel="stylesheet">
 </head>
@@ -15,63 +15,51 @@
             <div class="logo">
                 <h1>DoWhile.Pro</h1>
             </div>
+
             <nav class="main-menu">
-                <a class="menu-link" href="@{/}">Главная</a>
-                <a class="menu-link menu-news" href="#">Новости</a>
-                <a class="menu-link " href="/studing">Обучение</a>
-                <a class="menu-link" href="personal-account">Личный кабинет</a>
-                <a class="menu-link" href="/logout">Выход</a>
+                <ul>
+                    <#if roleHost??>
+                    <li><a class="menu-link" href="/">Главная</a></li>
+                    </#if>
+                    <li><a class="menu-link  menu-studing" href="#">Новости</a></li>
+                    <#if roleUser??>
+                    <li><a class="menu-link" href="#">Обучение</a>
+                        <ul class="fall">
+                            <li><a class="menu-link" href="/studing">Теория</a></li>
+                            <li><a class="menu-link" href="/practice">Практика</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="menu-link" href="/personal-account">Личный кабинет</a></li>
+                    <li><a class="menu-link" href="/logout">Выход</a></li>
+                    </#if>
+                    <#if roleHost??>
+                    <li><a class="menu-link" href="/login">Вход</a></li>
+                    </#if>
+                </ul>
             </nav>
         </div>
     </div>
 </header>
-<style>
 
-</style>
 <div class="row-news row1">
-    <div class="column hi">
-        <div class="picture picture-news-1-1"></div>
-        <div class="name-of-news">
-            <h5 class="news-title">
-                Новый язык программирования, основанный на Rust</h5>
-            <p>Компания Microsoft развивает новый язык программирования на основе Rust. Как пишет издание ZDnet,
-                проект...</p>
-        </div>
-    </div>
-    <div class="column">
-        <div class="picture picture-news-1-2"></div>
-        <div class="name-of-news">
-            <h5 class="news-title">Cтатья</h5>
-            <p>Кусочек статьи/новости для ознакомления. При нажатии полная версия</p>
-        </div>
-    </div>
-    <div class="column">
-        <div class="picture picture-news-1-3"></div>
-        <div class="name-of-news">
-            <h5 class="news-title">Cтатья</h5>
-            <p>Кусочек статьи/новости для ознакомления. При нажатии полная версия</p>
-        </div>
-    </div>
-</div>
-
-<div class="row-news row2">
-    <div class="column">
-        <div class="picture picture-news-2-1"></div>
-        <div class="name-of-news">
-            <h5 class="news-title">Cтатья</h5>
-            <p>Кусочек статьи/новости для ознакомления. При нажатии полная версия</p>
-        </div>
-    </div>
-    <div class="column">
-        <div class="picture picture-news-2-2"></div>
-        <div class="name-of-news">
-            <h5 class="news-title">Cтатья</h5>
-            <p>Кусочек статьи/новости для ознакомления. При нажатии полная версия</p>
-        </div>
-    </div>
+    <#if nnews??>
+        <#list nnews as one>
+            <a class="column" href="/one-news/${one.id}">
+                <div class="picture">${one.getImage()}</div>
+                <div class="name-of-news news-title">
+                    ${one.getShotNews()}
+                </div>
+            </a>
+        </#list>
+    </#if>
 </div>
 
 
+<div style="text-align: center">
+ <#if roleAdmin??>
+    <a class="menu-link" href="/addNews" style="font-size: 20px">Добавить новость</a>
+ </#if>
+</div>
 </body>
 
 </html>

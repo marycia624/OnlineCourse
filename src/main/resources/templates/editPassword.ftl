@@ -15,7 +15,11 @@
 
     <div class="center">
 
-        <div class="form">
+        <div class="form edit">
+            <#if wrongPassword??>
+                <h2 class="error">${wrongPassword}</h2>
+            </#if>
+
             <form action="/editPassword" method="post">
                 <p><input class="data" type="password" name="old_password" placeholder="Введите старый пароль" required></p>
                 <p><input class="data password" id="p1" type="password" name="password" placeholder="Введите новый пароль" required></p>

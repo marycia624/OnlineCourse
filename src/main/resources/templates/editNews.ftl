@@ -13,8 +13,8 @@
 <body>
 
 <div class="editor">
-    <form action="${what}" method="post">
-        <textarea name="editor" id="editor"><#if news??>${news.text}</#if></textarea><br>
+    <form action="/editNews/${news.id}" method="post">
+        <textarea name="editor" id="editor">${news.text}</textarea><br>
         <button class="success" id="btn-publish" type="submit">ОК</button>
         <button class="success" id="btn-cancel">Отчистить</button>
     </form>
@@ -27,7 +27,7 @@
     </form>
 
     <#if image??>
-        <p style="margin-top: 20px"> /img/${image} </p>
+        <p style="margin-top: 20px"> /upload/${image} </p>
     </#if>
 
 </div>
@@ -42,7 +42,7 @@
         CKEDITOR.on('dialogDefinition', function(e){
             var dialogName = e.data.name;
             var dialogDefinition = e.data.definition;
-            
+
             switch (dialogName) {
                 case 'image':
                     //dialogDefinition.removeContents('info');

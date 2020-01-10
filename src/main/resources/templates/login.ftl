@@ -27,7 +27,7 @@
         </#if>
 
         <#if message??>
-            <p> class="error">${message}</p>
+            <p class="error"> ${message} </p>
         </#if>
 
         <div class="form">

@@ -16,15 +16,26 @@
                 <h1>DoWhile.Pro</h1>
             </div>
             <nav class="main-menu">
-                <a class="menu-link" href="#">Главная</a>
-                <a class="menu-link" href="#">Новости</a>
-                <a class="menu-link menu-studing" href="#">Обучение</a>
-                <a class="menu-link" href="#">Личный кабинет</a>
-                <a class="menu-link" href="#">Выход</a>
+                <ul>
+                    <li><a class="menu-link" href="/news">Новости</a></li>
+                    <li><a class="menu-link menu-studing" href="#">Обучение</a>
+                        <ul class="fall">
+                            <li><a class="menu-link" href="#">Теория</a></li>
+                            <li><a class="menu-link" href="/practice">Практика</a></li>
+                        </ul>
+                    </li>
+                    <#if roleAdmin??>
+                        <li><a class="menu-link" href="/addTheory">Добавить</a></li>
+                    </#if>
+                    <li><a class="menu-link" href="/personal-account">Личный кабинет</a></li>
+
+                    <li><a class="menu-link" href="/logout">Выход</a></li>
+                </ul>
             </nav>
         </div>
     </div>
 </header>
+
 
 
 <div class="studing">
@@ -61,8 +72,14 @@
 
     <div class="theory-and-practice">
         <div class="theories">
-            <div class="theory" id="theory1"></div>
-            <div class="theory" id="theory2"></div>
+            <div class="theory" id="theory1">
+                <img src="/img/41dcaff7-5cbe-4e22-a2db-880a0a23e54b.1.png" />
+                <img src="/img/fcfa5595-d6eb-4297-bbd2-3ebfab5c5850.2.png" />
+            </div>
+            <div class="theory" id="theory2">
+                <img src="/img/25a96f7b-87a9-492f-b471-0387394ca0e5.1.png" />
+                <img src="/img/53aeabd4-b35a-40bc-8248-cc7840b510b2.2.png" />
+            </div>
             <div class="theory" id="theory3"></div>
             <div class="theory" id="theory4"></div>
             <div class="theory" id="theory5"></div>

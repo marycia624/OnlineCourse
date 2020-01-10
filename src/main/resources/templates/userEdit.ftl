@@ -15,19 +15,21 @@
 
     <div class="center">
 
-        <#if duplicateLogin??>
-            <h2 class="error">${duplicateLogin}</h2>
-        </#if>
-        <#if duplicatEmail??>
-            <h2 class="error">${duplicateEmail}</h2>
-        </#if>
-        <div class="form">
+        <div class="form edit">
+            <#if duplicateLogin??>
+                <h2 class="error">${duplicateLogin}</h2>
+            </#if>
+            <#if duplicatEmail??>
+                <h2 class="error">${duplicateEmail}</h2>
+            </#if>
             <form action="/userEdit" method="post">
                 <input type="hidden" name="id"/>
                 <p><input class="data" type="text" name="login" placeholder="Введи логин" value="${user.login}" required></p>
                 <p><input class="data" type="text" name="email" placeholder="Введи Email" value="${user.email}" required></p>
                 <p><input class="enter-btn" id="submit" type="submit" value="Сохранить"></p>
             </form>
+
+            <a href="/editPassword" class="btn btn-gradient">Изменить пароль</a>
         </div>
     </div>
     <div class="pic-sign-in"></div>

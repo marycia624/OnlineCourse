@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -17,32 +18,42 @@
                 <h1>DoWhile.Pro</h1>
             </div>
             <nav class="main-menu">
-                <a class="menu-link" href="#">Новости</a>
-                <a class="menu-link" href="#">Обучение</a>
-                <a class="menu-link" href="#">Личный кабинет</a>
-                <a class="menu-link" href="#">Выход</a>
+                <ul>
+                    <li><a class="menu-link" href="/news">Новости</a></li>
+                    <li><a class="menu-link" href="#">Обучение</a>
+                        <ul class="fall">
+                            <li><a class="menu-link" href="/studing">Теория</a></li>
+                            <li><a class="menu-link" href="/practice">Практика</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="menu-link  menu-studing" href="/#">Личный кабинет</a></li>
+
+                    <li><a class="menu-link" href="/logout">Выход</a></li>
+                </ul>
             </nav>
         </div>
     </div>
 </header>
-
-
-<div class="training-progress">
-    <h1>Твой прогресс</h1>
-    <progress value="15" max="100">
-        Загружено на <span id="value">25</span>%
-    </progress>
+<div style="text-align: center; padding-top: 190px">
+    <#if user.activationCode??>
+        <p class="error"> Ваш аккаунт не активирован </p>
+    </#if>
 </div>
 <div class="personal-account">
     <div class="information">
         <h1> Личная информация </h1>
         <div class="account">
             <div class="first">
-                <div class="photo"></div>
-                <form>
-                    <a href="#">Добавить
+                    <#if user.photo??>
+                    <img alt="nothing" class="photo" src="/img/${user.photo}" >
+                    </#if>
+                <form id="upload-container"  action="/image" method="post" enctype="multipart/form-data">
+                    <div>
+                        <input id="file-input" type="file" name="file">
+                        <label for="file-input">Загрузить фото</label>
+                        <input type="submit" name="submit" value="Изменить" />
+                    </div>
                 </form>
-                </a>
             </div>
             <div class="info">
                 <p>${user.login}</p>
@@ -53,7 +64,10 @@
     </div>
 
     <div class="statistics">
-        <h1>Статистика за месяц</h1>
+        <h1>Твой прогресс</h1>
+        <progress value="${points}" max="${maxvalue}">
+            Загружено на <span id="value">25</span>%
+        </progress>
     </div>
 </div>
 

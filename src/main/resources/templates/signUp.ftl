@@ -19,8 +19,12 @@
             <h1>Добро пожаловать на DoWhile.Pro</h1>
             <p>Уже есть аккаунт? <a href="/login"> Войти</a></p>
         </div>
-        <h2>${duplicateLogin}</h2>
-        <h2>${duplicateEmail}</h2>
+        <#if duplicateLogin??>
+            <h2 class="error">${duplicateLogin}</h2>
+        </#if>
+        <#if duplicatEmail??>
+            <h2 class="error">${duplicateEmail}</h2>
+        </#if>
         <div class="form">
             <form action="signUp" method="post">
                 <input type="hidden" name="id"/>
