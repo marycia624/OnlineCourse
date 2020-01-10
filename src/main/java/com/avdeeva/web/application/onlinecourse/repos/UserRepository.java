@@ -10,6 +10,5 @@ public interface UserRepository extends JpaRepository<User, BigInteger> {
 
     User findByEmail(String email);
 
-
     User findByActivationCode(String code);
 }

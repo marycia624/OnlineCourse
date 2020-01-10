@@ -1,15 +1,19 @@
 package com.avdeeva.web.application.onlinecourse.service;
 
 import com.avdeeva.web.application.onlinecourse.domain.Role;
+import com.avdeeva.web.application.onlinecourse.domain.Task;
 import com.avdeeva.web.application.onlinecourse.domain.User;
+import com.avdeeva.web.application.onlinecourse.repos.TaskRepository;
 import com.avdeeva.web.application.onlinecourse.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,6 +24,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private MailSender mailSender;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
@@ -39,6 +49,8 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setPhoto("e77a53de-22be-44f5-940a-c2597d694f28.scale_1200.png");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
 
@@ -65,5 +77,20 @@ public class UserService implements UserDetailsService {
         user.setActivationCode(null);
         userRepository.save(user);
         return true;
+    }
+
+    public Task notResolvingTask (List<Task> tasks, User user) {
+        for (Task one : tasks) {
+            boolean fit = true;
+            for (Task t : user.getTasks()) {
+                if (t.getId().equals(one.getId())) {
+                    fit = false;
+                }
+            }
+            if (fit) {
+                return one;
+            }
+        }
+        return null;
     }
 }

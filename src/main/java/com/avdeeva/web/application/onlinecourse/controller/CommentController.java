@@ -2,40 +2,38 @@ package com.avdeeva.web.application.onlinecourse.controller;
 
 
 import com.avdeeva.web.application.onlinecourse.domain.Comment;
+import com.avdeeva.web.application.onlinecourse.domain.News;
 import com.avdeeva.web.application.onlinecourse.domain.User;
 import com.avdeeva.web.application.onlinecourse.repos.CommentRepository;
+import com.avdeeva.web.application.onlinecourse.repos.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.persistence.JoinColumn;
-import java.util.Map;
+import java.math.BigInteger;
 
 @Controller
 public class CommentController {
 
     @Autowired
-    private CommentRepository commentsRepo;
+    private CommentRepository commentsRepository;
 
-    @RequestMapping(value = "/one-news", method = RequestMethod.GET)
-    public String oneNews (Map<String, Object> model) {
-        Iterable<Comment> allComments = commentsRepo.findAll();
-        model.put("comments", allComments);
-        return "one-news";
-    }
+    @Autowired
+    private NewsRepository newsRepository;
 
-    @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public String comment (@RequestParam String message, @AuthenticationPrincipal User user, Map<String, Object> model) {
-        Comment comment = new Comment(message, user);
-        commentsRepo.save(comment);
+    @RequestMapping(value = "/comment/news/{id}", method = RequestMethod.POST)
+    public String comment (@RequestParam("message") String message, @AuthenticationPrincipal User user, @PathVariable BigInteger id) {
 
-        Iterable<Comment> allComments = commentsRepo.findAll();
+        if (user == null) {
+            return "redirect:/one-news/" + id;
+        }
+        News news = newsRepository.findById(id).get();
+        Comment comment = new Comment(message, user, news);
+        commentsRepository.save(comment);
 
-        model.put("comments", allComments);
-
-        return "one-news";
+        return "redirect:/one-news/" + id;
     }
 }

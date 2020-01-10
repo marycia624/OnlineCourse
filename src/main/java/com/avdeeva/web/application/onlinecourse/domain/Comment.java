@@ -24,13 +24,15 @@ public class Comment {
     private User author;
 
     //private Date date;
-
-    //private BigInteger news_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "news_id")
+    private News news;
 
     public Comment () { }
 
-    public Comment(String message, User user) {
+    public Comment(String message, User user, News news) {
         this.message = message;
         this.author = user;
+        this.news = news;
     }
 }
